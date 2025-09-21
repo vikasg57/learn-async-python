@@ -820,3 +820,580 @@ class TestAsync(unittest.IsolatedAsyncioTestCase):
 ---
 
 **Happy Async Coding! 🚀**
+
+# Advanced Async Python Learning Path 🚀
+
+## 📊 Your Current Level
+✅ Basic async/await syntax
+✅ asyncio.gather() and create_task()
+✅ Concurrent vs sequential execution
+✅ Basic error handling
+✅ Priority-based processing
+
+## 🎯 Advanced Learning Path
+
+### Phase 1: Advanced Core Concepts (Week 1-2)
+
+#### Exercise 6: Async Queue System 📬
+Build a producer-consumer system with async queues.
+
+```python
+"""
+Requirements:
+1. Create multiple producers adding tasks to a queue
+2. Create multiple consumers processing tasks from the queue
+3. Implement queue size limits
+4. Add task priorities in queue
+5. Track metrics (throughput, latency)
+"""
+
+import asyncio
+import random
+import time
+from typing import Any, Dict
+
+class AsyncTaskQueue:
+    def __init__(self, max_size: int = 10, num_workers: int = 3):
+        self.queue = asyncio.Queue(maxsize=max_size)
+        self.workers = num_workers
+        self.metrics = {
+            'processed': 0,
+            'failed': 0,
+            'total_time': 0
+        }
+    
+    async def producer(self, producer_id: int, num_tasks: int):
+        """Add tasks to queue"""
+        # Your implementation here
+        pass
+    
+    async def consumer(self, worker_id: int):
+        """Process tasks from queue"""
+        # Your implementation here
+        pass
+    
+    async def run(self):
+        """Coordinate producers and consumers"""
+        # Your implementation here
+        pass
+
+# Goal: Process 100 tasks with 5 producers and 3 consumers
+# Track: Average processing time, queue wait time, throughput
+```
+
+#### Exercise 7: Rate Limiter & Throttling 🚦
+Implement an async rate limiter using token bucket algorithm.
+
+```python
+"""
+Requirements:
+1. Limit API calls to X requests per second
+2. Implement token bucket algorithm
+3. Handle burst traffic
+4. Add retry logic with exponential backoff
+5. Support multiple rate limit tiers
+"""
+
+class AsyncRateLimiter:
+    def __init__(self, rate: int, per: float = 1.0, burst: int = None):
+        """
+        rate: number of requests
+        per: time period in seconds
+        burst: maximum burst size
+        """
+        # Your implementation
+        pass
+    
+    async def acquire(self):
+        """Wait if necessary to stay within rate limit"""
+        pass
+    
+    async def __aenter__(self):
+        await self.acquire()
+        return self
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+# Usage example:
+# limiter = AsyncRateLimiter(rate=10, per=1.0)  # 10 requests per second
+# async with limiter:
+#     await make_api_call()
+```
+
+#### Exercise 8: Async Context Manager & Resources 🔒
+Create an async database connection pool.
+
+```python
+"""
+Requirements:
+1. Implement async context manager for connections
+2. Create connection pool with size limits
+3. Handle connection recycling
+4. Add health checks for connections
+5. Implement connection timeout and retry
+"""
+
+class AsyncConnectionPool:
+    async def __aenter__(self):
+        """Acquire connection from pool"""
+        pass
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """Return connection to pool"""
+        pass
+    
+    async def execute(self, query: str):
+        """Execute query with automatic connection management"""
+        pass
+
+# Goal: Handle 1000 concurrent database operations efficiently
+```
+
+---
+
+### Phase 2: Real-World Patterns (Week 3-4)
+
+#### Exercise 9: Web Scraper with Concurrency Control 🕷️
+Build an async web scraper with politeness policies.
+
+```python
+"""
+Requirements:
+1. Scrape multiple websites concurrently
+2. Respect robots.txt
+3. Implement per-domain rate limiting
+4. Handle retries and failures gracefully
+5. Save results to database asynchronously
+6. Monitor progress with live dashboard
+"""
+
+import aiohttp
+import asyncio
+from typing import List, Dict
+
+class AsyncWebScraper:
+    def __init__(self, max_concurrent: int = 10, delay_per_domain: float = 1.0):
+        self.semaphore = asyncio.Semaphore(max_concurrent)
+        self.domain_locks = {}  # Per-domain rate limiting
+        self.session = None
+        
+    async def fetch_url(self, url: str) -> str:
+        """Fetch single URL with rate limiting"""
+        pass
+    
+    async def scrape_website(self, base_url: str, max_pages: int = 100):
+        """Scrape entire website respecting limits"""
+        pass
+
+# Goal: Scrape 1000 pages from 10 different domains efficiently
+```
+
+#### Exercise 10: Async Microservice Orchestrator 🎭
+Build a system that coordinates multiple microservices.
+
+```python
+"""
+Requirements:
+1. Call multiple services in parallel
+2. Implement circuit breaker pattern
+3. Add request caching
+4. Handle partial failures gracefully
+5. Implement timeout and retry strategies
+6. Add distributed tracing
+"""
+
+class ServiceOrchestrator:
+    async def get_user_dashboard(self, user_id: int):
+        """
+        Coordinate calls to:
+        - User service
+        - Orders service
+        - Recommendations service
+        - Notifications service
+        
+        Handle failures gracefully with fallbacks
+        """
+        pass
+
+# Goal: Reduce latency from 2s (sequential) to 500ms (parallel)
+```
+
+#### Exercise 11: Real-time Data Pipeline 📊
+Build an async ETL pipeline for streaming data.
+
+```python
+"""
+Requirements:
+1. Read from multiple data sources concurrently
+2. Transform data in parallel
+3. Write to multiple destinations
+4. Handle backpressure
+5. Implement checkpointing for recovery
+6. Monitor pipeline health
+"""
+
+class AsyncDataPipeline:
+    async def extract(self, source: str) -> AsyncIterator[Dict]:
+        """Extract data from source"""
+        pass
+    
+    async def transform(self, data: Dict) -> Dict:
+        """Transform data"""
+        pass
+    
+    async def load(self, data: Dict, destination: str):
+        """Load data to destination"""
+        pass
+    
+    async def run(self):
+        """Run the complete pipeline"""
+        pass
+
+# Goal: Process 100,000 records per minute
+```
+
+---
+
+### Phase 3: Advanced Patterns (Week 5-6)
+
+#### Exercise 12: Distributed Task Queue 🌐
+Build a Redis-backed distributed task queue.
+
+```python
+"""
+Requirements:
+1. Distribute tasks across multiple workers
+2. Implement task persistence with Redis
+3. Add task scheduling (run at specific time)
+4. Support task dependencies
+5. Implement dead letter queue
+6. Add monitoring and metrics
+"""
+
+class DistributedTaskQueue:
+    def __init__(self, redis_url: str):
+        pass
+    
+    async def enqueue(self, task: Dict, priority: int = 0, delay: int = 0):
+        """Add task to queue"""
+        pass
+    
+    async def worker(self, worker_id: str):
+        """Worker that processes tasks"""
+        pass
+
+# Goal: Handle 10,000 tasks/second across 5 workers
+```
+
+#### Exercise 13: WebSocket Server with Pub/Sub 💬
+Build a real-time chat server using WebSockets.
+
+```python
+"""
+Requirements:
+1. Handle 1000+ concurrent WebSocket connections
+2. Implement pub/sub for rooms
+3. Add message history
+4. Implement presence (who's online)
+5. Add rate limiting per user
+6. Support reconnection with message recovery
+"""
+
+class AsyncChatServer:
+    def __init__(self):
+        self.connections = {}
+        self.rooms = {}
+    
+    async def handle_connection(self, websocket, path):
+        """Handle new WebSocket connection"""
+        pass
+    
+    async def broadcast_to_room(self, room_id: str, message: Dict):
+        """Send message to all users in room"""
+        pass
+
+# Goal: Support 1000 concurrent users with <100ms message latency
+```
+
+---
+
+### Phase 4: Performance & Optimization (Week 7-8)
+
+#### Exercise 14: Async Performance Profiler 📈
+Build a tool to profile async code performance.
+
+```python
+"""
+Requirements:
+1. Track task execution time
+2. Monitor event loop lag
+3. Detect blocking operations
+4. Visualize concurrent task execution
+5. Identify bottlenecks
+6. Generate performance reports
+"""
+
+class AsyncProfiler:
+    def __init__(self):
+        self.metrics = []
+    
+    async def profile(self, coro):
+        """Profile a coroutine"""
+        pass
+    
+    def generate_report(self):
+        """Generate performance report"""
+        pass
+```
+
+#### Exercise 15: Async Cache with TTL 💾
+Implement an efficient async cache with various eviction policies.
+
+```python
+"""
+Requirements:
+1. Implement LRU, LFU, and TTL eviction
+2. Support async cache warming
+3. Add cache statistics
+4. Implement distributed caching
+5. Handle cache stampede
+6. Add cache invalidation patterns
+"""
+
+class AsyncCache:
+    def __init__(self, max_size: int = 1000, ttl: int = 300):
+        pass
+    
+    async def get(self, key: str, factory=None):
+        """Get from cache or compute"""
+        pass
+    
+    async def invalidate_pattern(self, pattern: str):
+        """Invalidate keys matching pattern"""
+        pass
+```
+
+---
+
+## 🎓 Advanced Concepts to Master
+
+### 1. **Async Generators & Iterators**
+```python
+async def paginated_fetch(url: str, total_pages: int):
+    """Async generator for pagination"""
+    for page in range(1, total_pages + 1):
+        data = await fetch_page(url, page)
+        yield data
+
+# Usage
+async for page_data in paginated_fetch(url, 100):
+    await process_page(page_data)
+```
+
+### 2. **Async Comprehensions**
+```python
+# Async list comprehension
+results = [await process(item) async for item in async_iterator()]
+
+# Async dict comprehension
+data = {k: await fetch(k) async for k in keys}
+```
+
+### 3. **AsyncIO Streams**
+```python
+async def handle_client(reader, writer):
+    """Handle TCP client connection"""
+    data = await reader.read(1024)
+    response = await process_request(data)
+    writer.write(response)
+    await writer.drain()
+    writer.close()
+```
+
+### 4. **Synchronization Primitives**
+```python
+# Lock
+lock = asyncio.Lock()
+async with lock:
+    # Critical section
+    pass
+
+# Semaphore
+sem = asyncio.Semaphore(10)
+async with sem:
+    # Limited concurrency
+    pass
+
+# Event
+event = asyncio.Event()
+await event.wait()  # Wait for event
+event.set()  # Trigger event
+```
+
+### 5. **Error Handling Patterns**
+```python
+# Supervisor pattern
+async def supervisor(coro, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            return await coro
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            await asyncio.sleep(2 ** attempt)
+
+# Circuit breaker pattern
+class CircuitBreaker:
+    def __init__(self, failure_threshold=5, timeout=60):
+        self.failures = 0
+        self.threshold = failure_threshold
+        self.timeout = timeout
+        self.last_failure_time = None
+        self.state = "closed"  # closed, open, half_open
+```
+
+---
+
+## 📚 Project Ideas
+
+### 1. **Async Web Framework** (2 weeks)
+Build a mini async web framework like FastAPI:
+- Routing system
+- Middleware support
+- Dependency injection
+- Request validation
+- WebSocket support
+
+### 2. **Distributed Web Crawler** (3 weeks)
+Build a production-grade web crawler:
+- URL frontier management
+- Duplicate detection
+- Politeness policies
+- Distributed crawling
+- Data extraction pipeline
+
+### 3. **Real-time Analytics Engine** (3 weeks)
+Build a streaming analytics system:
+- Ingest data from multiple sources
+- Real-time aggregations
+- Time-window operations
+- Dashboard with WebSockets
+- Alerting system
+
+### 4. **Async Game Server** (2 weeks)
+Build a multiplayer game server:
+- Handle 1000+ concurrent players
+- Real-time state synchronization
+- Match-making system
+- Leaderboards
+- Anti-cheat mechanisms
+
+---
+
+## 📖 Resources for Deep Learning
+
+### Books
+1. **"Using Asyncio in Python"** by Caleb Hattingh
+2. **"High Performance Python"** by Gorelick & Ozsvald
+3. **"Architecture Patterns with Python"** by Percival & Gregory
+
+### Online Courses
+1. **Python Concurrency** on Real Python
+2. **Async Techniques and Examples** on Python docs
+3. **Building Async APIs** tutorials
+
+### Libraries to Explore
+```python
+# Web & APIs
+pip install aiohttp fastapi httpx
+
+# Databases
+pip install asyncpg aiomysql motor aioredis
+
+# Message Queues
+pip install aio-pika aiokafka
+
+# Utilities
+pip install aiofiles aiopath aiodns
+
+# Testing
+pip install pytest-asyncio aioresponses
+```
+
+### Code to Study
+1. **FastAPI source code** - Modern async patterns
+2. **aiohttp source code** - Low-level async networking
+3. **Starlette source code** - ASGI framework patterns
+4. **Uvicorn source code** - ASGI server implementation
+
+---
+
+## 🎯 Learning Strategy
+
+### Week 1-2: Advanced Core
+- Complete exercises 6-8
+- Study async context managers
+- Learn about event loop internals
+
+### Week 3-4: Real-World Patterns
+- Complete exercises 9-11
+- Build a small API with FastAPI
+- Practice with real APIs using aiohttp
+
+### Week 5-6: Distributed Systems
+- Complete exercises 12-13
+- Learn about message queues
+- Study distributed patterns
+
+### Week 7-8: Optimization
+- Complete exercises 14-15
+- Profile your code
+- Optimize bottlenecks
+
+### Week 9-12: Big Project
+- Choose one major project
+- Apply all learned concepts
+- Deploy to production
+
+---
+
+## 🏆 Mastery Checklist
+
+- [ ] Can build async APIs handling 10K+ req/sec
+- [ ] Understand event loop internals
+- [ ] Can debug async code effectively
+- [ ] Know when NOT to use async
+- [ ] Can profile and optimize async code
+- [ ] Understand backpressure and flow control
+- [ ] Can implement custom async protocols
+- [ ] Can build distributed async systems
+- [ ] Know multiple async patterns by heart
+- [ ] Can teach async concepts to others
+
+---
+
+## 💡 Pro Tips
+
+1. **Not everything needs to be async** - CPU-bound tasks don't benefit
+2. **Beware of blocking operations** - One blocking call ruins concurrency
+3. **Use connection pooling** - Don't create connections per request
+4. **Monitor your event loop** - Watch for lag and blocking
+5. **Test concurrent scenarios** - Race conditions are tricky
+6. **Use structured concurrency** - TaskGroups in Python 3.11+
+7. **Profile before optimizing** - Measure, don't guess
+8. **Handle backpressure** - Don't overwhelm downstream services
+
+---
+
+## 🚀 Next Immediate Steps
+
+1. **Pick Exercise 6** (Async Queue System) and implement it
+2. **Install aiohttp**: `pip install aiohttp` and build a simple client
+3. **Read FastAPI tutorial**: Understand modern async patterns
+4. **Join Python Discord**: Async channel for discussions
+5. **Build something real**: Apply concepts to actual problems
+
+Remember: The key to mastery is **building real projects** that solve actual problems. Each exercise above is derived from real-world scenarios I've encountered in production systems.
+
+Good luck on your journey to async mastery! 🎉
